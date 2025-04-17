@@ -11,7 +11,8 @@ html {
 
 :root {
     --c-1: purple;
-    --c-2: gray;
+    --c-2: #fff;
+    /* make gray (kinda) */
 }
 
 body {
@@ -20,9 +21,6 @@ body {
 }
 
 main {
-    width: 100vw;
-    height: 100vh;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,4 +29,8 @@ main {
 svg {
     width: 25px;
     height: 25px;
+}
+
+a {
+    color: #fff;
 }

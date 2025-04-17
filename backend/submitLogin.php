@@ -4,7 +4,7 @@ include_once 'functions.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    send('../login.php?error=stop_that');
+    send('../login.php');
 }
 
 if (!isset($_POST['username-or-email']) || !isset($_POST['password'])) {

@@ -2,38 +2,20 @@
 
 session_start();
 
-include_once 'backend/functions.php';
+// includes functions.php
+include_once 'backend/notIsLogged.php';
 
-if (!isLogged())  {
-    send('login.php');
-}
+include_once 'html/head.html';
+include_once 'html/header.html';
 
 ?>
-
-<!doctype html>
-<html lang="en">
-<head>
-</head>
-<body>
     <header>
-        <nav aria-label="Site Navigation">
-            <ul>
-                <li>
-                    <a href="backend/logout.php" title="Logout">Logout</a>
-                </li>
-            </ul>
-        </nav>
+        <h1>Home</h1>
     </header>
-    <main>
-        <header>
-            <h1>Welcome <?= $_SESSION['username'] ?></h1>
-        </header>
-        <section>
-            <h2>You User Identification Number is <?= $_SESSION['id'] ?></h2>
-        </section>
-    </main>
-    <footer>
+    <section>
+        <h2>Welcome <?= $_SESSION['username'] ?></h2>
+        <p>Your User Identification Number is <?= $_SESSION['id'] ?></p>
+    </section>
+<?php
 
-    </footer>
-</body>
-</html>
+include_once 'html/footer.html';

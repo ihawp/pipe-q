@@ -3,7 +3,7 @@
 include_once 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    send('../register.php?error=stop_it');
+    send('../register.php');
 }
 
 // If one of these are NOT set, send the user back.

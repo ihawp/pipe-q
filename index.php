@@ -1,9 +1,9 @@
 <?php
 
+include_once 'backend/isLogged.php';
 
-include 'backend/db_conn.php';
+include_once 'html/head.html';
+include_once 'html/NL-header.html';
+include_once 'html/NL-footer.html';
 
 
-include 'html/index.html';
-
-?>

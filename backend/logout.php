@@ -2,11 +2,7 @@
 
 session_start();
 
-include_once 'functions.php';
-
-if (!isLogged()) {
-    send('../login.php');
-}
+include_once 'notIsLogged.php';
 
 $_SESSION = array();
 
