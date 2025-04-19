@@ -23,7 +23,7 @@ session_destroy();
 
 session_regenerate_id(true);
 
-send('../index.php');
+send('');
 
 ?>
 
