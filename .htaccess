@@ -1,3 +1,18 @@
 RewriteEngine On
+
+# Redirect HTTP to HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove .php extension from URLs
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(.+)\.php\sHTTP/
+RewriteRule ^(.+)\.php$ /pipe-q/$1 [R=301,L]
+
+# Internally rewrite requests to .php files
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ /pipe-q/$1.php [L]
+
+# Route to /pipe-q/ if file doesn't exist (index)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /pipe-q/ [L]
