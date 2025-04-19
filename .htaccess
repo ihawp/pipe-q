@@ -10,7 +10,7 @@ RewriteRule ^(.+)\.php$ /pipe-q/$1 [R=301,L]
 
 # Internally rewrite requests to .php files
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.+)$ /pipe-q/$1.php [L]
+RewriteRule ^(.+)$ /pipe-q/ [L]
 
 # Route to /pipe-q/ if file doesn't exist (index)
 RewriteCond %{REQUEST_FILENAME} !-f
