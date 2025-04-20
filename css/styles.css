@@ -12,7 +12,6 @@ html {
 :root {
     --c-1: purple;
     --c-2: #fff;
-    /* make gray (kinda) */
 }
 
 body {
@@ -38,6 +37,4 @@ a {
 
 #hero {
     background-color: dodgerblue;
-    width: 100vw;
-    height: 100vh;
 }

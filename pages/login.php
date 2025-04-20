@@ -2,9 +2,6 @@
 
 include_once 'backend/isLogged.php';
 
-include_once 'html/head.html';
-include_once 'html/NL-header.html';
-
 ?>
     <header>
         <h1>Login</h1>
@@ -24,5 +21,3 @@ include_once 'html/NL-header.html';
         </form>
     </section>
 <?php
-
-include_once 'html/NL-footer.html';

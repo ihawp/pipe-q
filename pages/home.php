@@ -1,12 +1,8 @@
 <?php
 
-session_start();
-
 // includes functions.php
-include_once 'backend/notIsLogged.php';
 
-include_once 'html/head.html';
-include_once 'html/header.html';
+include 'backend/notIsLogged.php';
 
 ?>
     <header>
@@ -23,7 +19,6 @@ include_once 'html/header.html';
     </section>
     <section id="posts-container">
         <?php
-
 
         include_once 'db_conn.php';
 
@@ -44,5 +39,3 @@ include_once 'html/header.html';
         ?>
     </section>
 <?php
-
-include_once 'html/footer.html';

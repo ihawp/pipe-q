@@ -1,22 +1,15 @@
 <?php
 
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 $location = $_SERVER['REQUEST_URI'];
 
-// could load header and footer here as well.
-// and header/footer can be based off of logged state
+session_start();
 
 include_once 'backend/functions.php';
 
-if (isLogged()) {
-    include_once 'html/head.html';
-    include_once 'html/header.html';
-} else {
-    // head will likely be different eventually
-    include_once 'html/head.html';
-    include_once 'html/NL-header.html';
-}
+include_once 'pages/head.php';
+include_once 'pages/header.php';
 
 const PREPEND = '/pipe-q/';
 
@@ -32,7 +25,11 @@ switch ($location) {
         break;
     case PREPEND:
     case PREPEND . 'home':
-        include_once 'pages/home.php';
+        if (isLogged()) {
+            include_once 'pages/home.php';
+        } else {
+            include_once 'pages/NL-home.php';
+        }
         break;
     default:
         include_once 'pages/error.php';
@@ -40,14 +37,9 @@ switch ($location) {
 
 }
 
+include_once 'pages/footer.php';
 
+?>
 
-
-
-// include_once 'backend/isLogged.php';
-
-include_once 'html/head.html';
-include_once 'html/NL-header.html';
-include_once 'html/NL-footer.html';
-
-
+</body>
+</html>
