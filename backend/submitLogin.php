@@ -3,11 +3,11 @@
 include_once 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    send('../login.php');
+    send('../login');
 }
 
 if (!isset($_POST['username-or-email']) || !isset($_POST['password'])) {
-    send('../login.php?error=missing_info');
+    send('../login?error=missing_info');
 }
 
 $usernameORemail = cleanString($_POST['username-or-email']);
@@ -16,7 +16,7 @@ $password = $_POST['password'];
 if (!filter_var($usernameORemail, FILTER_VALIDATE_EMAIL)) {
     $strlenUsernameOrEmail = strlen($usernameORemail);
     if ($strlenUsernameOrEmail < 5 || $strlenUsernameOrEmail > 16) {
-        send('../login.php?error=username_length');
+        send('../login?error=username_length');
     }
 }
 
@@ -41,12 +41,12 @@ if ($result->num_rows > 0) {
             $_SESSION['id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
 
-            send('../home.php');
+            send('../home');
 
         } else {
-            send('../login.php?error=wrong_password');
+            send('../login?error=wrong_password');
         }
     }
 } else {
-    send('../login.php?error=account_doesnt_exist');
+    send('../login?error=account_doesnt_exist');
 }

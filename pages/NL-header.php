@@ -1,16 +1,16 @@
 <?php ?>
 
-    <header>
+<header>
         <nav>
             <ul>
                 <li>
                     <a href="./home" title="Home">Home</a>
                 </li>
                 <li>
-                    <a href="./logout" title="Logout">Logout</a>
+                    <a href="./login" title="Login">Login</a>
                 </li>
                 <li>
-                    <a href="./account" title="Account">Account</a>
+                    <a href="./register" title="Register">Register</a>
                 </li>
             </ul>
         </nav>

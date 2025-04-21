@@ -18,24 +18,5 @@ include 'backend/notIsLogged.php';
         <p>Your User Identification Number is <?= $_SESSION['id'] ?></p>
     </section>
     <section id="posts-container">
-        <?php
-
-        include_once 'db_conn.php';
-
-        $query = $conn->prepare('');
-
-        $query->bind_param('', '');
-
-        $query->execute();
-
-        $result = $query->get_result();
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo $row['thing'];
-            }
-        }
-
-        ?>
     </section>
 <?php
