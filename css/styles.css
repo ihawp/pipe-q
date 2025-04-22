@@ -48,3 +48,19 @@ a {
 
     max-width: 320px;
 }
+
+#messageOut {
+    display: flex;
+    flex-direction: column;
+
+    width: 500px;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: yellow;
+}
+
+.chat {
+    background-color: green;
+    color: black;
+}

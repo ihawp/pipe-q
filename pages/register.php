@@ -43,24 +43,22 @@ if (isset($_GET['error'])) {
         <form action="backend/submitRegister.php" method="POST">
             <div>
                 <label for="username">Username:</label>
-                <input type="text" name="username" id="username" placeholder="Username" minlength="5" maxlength="16" required>
+                <input type="text" name="username" autocomplete="username" id="username" placeholder="Username" minlength="5" maxlength="16" required>
             </div>    
             <div>
                 <label for="email">Email:</label>
-                <input type="Email" name="email" id="email" placeholder="Email" required>
+                <input type="Email" name="email" autocomplete="email" id="email" placeholder="Email" required>
             </div>
             <div>
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Password" required>
+                <input type="password" name="password" autocomplete="new-password" id="password" placeholder="Password" required>
             </div>
             <div>
-                <!-- Could entirely remove this functionality -->
                 <label for="passwordAgain">Password (again):</label>
-                <input type="password" name="passwordAgain" id="passwordAgain" placeholder="Password (again)" required>
+                <input type="password" name="passwordAgain" autocomplete="new-password" id="passwordAgain" placeholder="Password (again)" required>
             </div>
 
             <input type="submit" value="Submit">
 
         </form>
     </section>
-<?php

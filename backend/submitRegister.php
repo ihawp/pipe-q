@@ -45,6 +45,8 @@ if ($result->num_rows > 0) {
     send('../register?error=account_already_exists');
 }
 
+$query->close();
+
 // Create new user in DB
 $query = $conn->prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
 

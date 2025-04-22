@@ -30,14 +30,13 @@ if (isset($_GET['error'])) {
         <form action="backend/submitLogin.php" method="POST">
             <div>
                 <label for="username-or-email">Username or Email:</label>
-                <input type="text" name="username-or-email" id="username-or-email" placeholder="Username or Email" minlength="5" maxlength="16" required>
+                <input type="text" name="username-or-email" autocomplete="username" id="username-or-email" placeholder="Username or Email" minlength="5" maxlength="16" required>
             </div>
             <div>
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Password">
+                <input type="password" name="password" autocomplete="current-password" id="password" placeholder="Password">
             </div>
 
             <input type="submit" value="Login">
         </form>
     </section>
-<?php
