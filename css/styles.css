@@ -12,16 +12,18 @@ html {
 :root {
     --c-1: purple;
     --c-2: #fff;
-    /* make gray (kinda) */
 }
 
 body {
     background-color: var(--c-1);
     color: var(--c-2);
+
+    font-family: sans-serif;
 }
 
 main {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -33,4 +35,21 @@ svg {
 
 a {
     color: #fff;
+}
+
+#hero {
+    background-color: dodgerblue;
+}
+
+.error {
+    background-color: red;
+    padding: 1rem;
+    font-size: 14px;
+
+    max-width: 320px;
+}
+
+.chat {
+    background-color: green;
+    color: black;
 }
