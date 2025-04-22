@@ -4,6 +4,38 @@
 
 include 'backend/notIsLogged.php';
 
+function base64UrlEncode($data) {
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+$header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
+$payload = json_encode([
+    'user_id' => $_SESSION['id'],
+    'username' => $_SESSION['username'],
+    'exp' => time() + 3600,
+]);
+
+$base64UrlHeader = base64UrlEncode($header);
+$base64UrlPayload = base64UrlEncode($payload);
+
+$secret = 'this_is_a_secret';
+
+$signature = hash_hmac('sha256', "$base64UrlHeader.$base64UrlPayload", $secret, true);
+$base64UrlSignature = base64UrlEncode($signature);
+
+$jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
+
+// OUTSIDE OF DEV ENV:
+// SET 'secure' => true
+// ADD 'domain' => domain
+setcookie('jwt', $jwt, [
+    'expires' => time() + 3600,
+    'path' => '/',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 ?>
     <header>
         <h1>Home</h1>
@@ -23,67 +55,19 @@ include 'backend/notIsLogged.php';
             <button type="submit">Submit</button>
         </form>
     </section>
-    <section id="messageOut">
-
-    </section>
-    <canvas id="canvas">
-    </canvas>
+    <section id="messageOut"></section>
+    <canvas id="canvas" width="500" height="500"></canvas>
 
     <script src="http://localhost:4343/socket.io/socket.io.js"></script>
-
     <script>
-    const socket = io('http://localhost:4343');
+    const socket = io('http://localhost:4343', {
+        withCredentials: true,
+    });
 
     let formSubmit = document.getElementById('formSubmit');
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext ('2d');
     const username = "<?= $_SESSION['username'] ?>";
 
-    console.log(username);
-
-    context.fillStyle = 'red';
-    context.fillRect(0, 0, 500, 500);
-
-    let player;
-
-    const movePlayer = (event, player) => {
-        switch(event.keyCode) {
-            case 87:
-                player.y -= 5;
-                break;
-            case 65:
-                player.x -= 5;
-                break;
-            case 83:
-                player.y += 5;
-                break;
-            case 68:
-                player.x += 5;
-                break;
-        }
-        return player;
-    }
-
     socket.on('connect', () => {
-
-        socket.on('player-set', pos => { 
-            player = pos;
-            context.fillStyle = 'black';
-            context.fillRect(pos.x, pos.y, 25, 25);
-            const handler = () => socket.emit('player-move', movePlayer(event, player));
-            document.addEventListener('keydown', handler);
-        });
-
-        socket.on('player-receive', pos => {
-            
-            context.fillStyle = 'red';
-            context.fillRect(0, 0, 500, 500);
-            context.fillStyle = 'black';
-            context.fillRect(pos.x, pos.y, 25, 25);
-
-            player = pos;
-
-        });
 
         let formSubmit = document.getElementById('formSubmit');
 
@@ -95,6 +79,7 @@ include 'backend/notIsLogged.php';
             socket.emit('chat message', { username: username, message: input.value });
             input.value = '';
         });
+
     });
 
     socket.on('chat message', (rec) => {

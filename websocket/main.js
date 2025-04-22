@@ -1,27 +1,58 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
+import session from "express-session";
+
+import jwt from 'jsonwebtoken';
 
 const server = createServer();
 
 const io = new Server(server, {
   cors: {
     origin: "http://localhost",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    credentials: true,
   }
 });
 
-let player = {
-    x: 250,
-    y: 250,
+function parseCookies(cookieHeader) {
+  const cookies = {};
+  if (!cookieHeader) return cookies;
+
+  cookieHeader.split(';').forEach(cookie => {
+    const [name, ...rest] = cookie.trim().split('=');
+    cookies[name] = decodeURIComponent(rest.join('='));
+  });
+
+  return cookies;
 }
 
+io.use((socket, next) => {
+
+
+  const cookieHeader = socket.handshake.headers.cookie;
+  const cookies = parseCookies(cookieHeader);
+  const token = cookies['jwt'];
+
+
+  if (!token) {
+      return next(new Error('Authentication error: No token provided'));
+  }
+
+  try {
+      const decoded = jwt.verify(token, 'this_is_a_secret');
+      socket.decoded = decoded;
+      next();
+  } catch (err) {
+      next(new Error('Authentication error: Invalid token'));
+  }
+});
+
 io.on('connection', socket => {
+
+  console.log(socket.decoded);
   // console.log('User connected:', socket.id);
 
-  io.emit('player-set', player);
-
   socket.on('chat message', (rec) => {
-    console.log(rec.username, rec.message);
 
     if (rec.username.length > 0 && rec.message.length > 0) {
 
@@ -30,11 +61,6 @@ io.on('connection', socket => {
     }
 
   });
-
-  socket.on('player-move', (rec) => {
-    player = rec;
-    io.emit('player-receive', rec);
-  })
 });
 
 server.listen(4343, () => {
