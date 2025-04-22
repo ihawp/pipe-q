@@ -24,7 +24,10 @@ include 'backend/notIsLogged.php';
         </form>
     </section>
     <section id="messageOut">
+
     </section>
+    <canvas id="canvas">
+    </canvas>
 
     <script src="http://localhost:4343/socket.io/socket.io.js"></script>
 
@@ -32,13 +35,55 @@ include 'backend/notIsLogged.php';
     const socket = io('http://localhost:4343');
 
     let formSubmit = document.getElementById('formSubmit');
-    const messageOut = document.getElementById('messageOut');
-
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext ('2d');
     const username = "<?= $_SESSION['username'] ?>";
 
     console.log(username);
 
+    context.fillStyle = 'red';
+    context.fillRect(0, 0, 500, 500);
+
+    let player;
+
+    const movePlayer = (event, player) => {
+        switch(event.keyCode) {
+            case 87:
+                player.y -= 5;
+                break;
+            case 65:
+                player.x -= 5;
+                break;
+            case 83:
+                player.y += 5;
+                break;
+            case 68:
+                player.x += 5;
+                break;
+        }
+        return player;
+    }
+
     socket.on('connect', () => {
+
+        socket.on('player-set', pos => { 
+            player = pos;
+            context.fillStyle = 'black';
+            context.fillRect(pos.x, pos.y, 25, 25);
+            const handler = () => socket.emit('player-move', movePlayer(event, player));
+            document.addEventListener('keydown', handler);
+        });
+
+        socket.on('player-receive', pos => {
+            
+            context.fillStyle = 'red';
+            context.fillRect(0, 0, 500, 500);
+            context.fillStyle = 'black';
+            context.fillRect(pos.x, pos.y, 25, 25);
+
+            player = pos;
+
+        });
 
         let formSubmit = document.getElementById('formSubmit');
 
