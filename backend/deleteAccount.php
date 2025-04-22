@@ -1,10 +1,13 @@
 <?php
 
+session_start();
+
 include_once 'functions.php';
+if (!isLogged()) {
+    send('../login');
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete']) && cleanString($_POST['delete']) === 'TRUE') {
-
-    session_start();
 
     include_once 'db_conn.php';
 

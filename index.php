@@ -4,12 +4,17 @@ require __DIR__ . '/vendor/autoload.php';
 
 $location = explode('?', $_SERVER['REQUEST_URI'])[0];
 
-session_start();
-
 include_once 'backend/functions.php';
 
-// have if statements for different head/headers in index.php
-// not inside the php file head.php/header.php
+/*
+if (isset($_GET['from'])) {
+    $location = cleanString($_GET['from']);
+    // could be used for routing from pages that shouldn't be accessed 
+    // (anything other than index.php)
+}
+*/
+
+session_start();
 
 if (isLogged()) {
     include_once 'pages/head.php';

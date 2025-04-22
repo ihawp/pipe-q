@@ -17,6 +17,8 @@ html {
 body {
     background-color: var(--c-1);
     color: var(--c-2);
+
+    font-family: sans-serif;
 }
 
 main {
@@ -37,4 +39,12 @@ a {
 
 #hero {
     background-color: dodgerblue;
+}
+
+.error {
+    background-color: red;
+    padding: 1rem;
+    font-size: 14px;
+
+    max-width: 320px;
 }
