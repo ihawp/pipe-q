@@ -7,10 +7,10 @@
                     <a href="./home" title="Home">Home</a>
                 </li>
                 <li>
-                    <a href="./logout" title="Logout">Logout</a>
+                    <a href="./account" title="Account">Account</a>
                 </li>
                 <li>
-                    <a href="./account" title="Account">Account</a>
+                    <a href="./chat" title="Chat">Chat</a>
                 </li>
             </ul>
         </nav>

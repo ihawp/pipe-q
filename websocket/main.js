@@ -50,9 +50,6 @@ io.use((socket, next) => Authentication(socket, next));
 
 io.on('connection', socket => {
 
-  console.log(socket.decoded);
-  // console.log('User connected:', socket.id);
-
   socket.on('chat message', (rec) => {
 
     if (rec.username.length >= 5 && rec.username.length <= 16 && rec.message.length > 0 && rec.username === socket.decoded.username) {
@@ -61,11 +58,22 @@ io.on('connection', socket => {
 
       io.emit('chat message', rec);
 
+      fetch('http://localhost/pipe-q/backend/sendMessageToDB.php', {
+        method: 'POST',
+        body: JSON.stringify({data: rec}),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP Error: ${response.status}`);
+        }
+      })
+
     } else {
       socket.emit('error', 'there was an error');
     }
 
   });
+
 });
 
 server.listen(4343, () => {

@@ -29,6 +29,10 @@ if (strlen($username) < 5 || strlen($username) > 16 || !is_string($username)) {
     send('../register?error=username_length');
 }
 
+if (!preg_match('/^[A-Za-z0-9]+$/', $username)) {
+    send('../register?error=preg_match');
+}
+
 
 include_once 'db_conn.php';
 

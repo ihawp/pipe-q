@@ -16,6 +16,13 @@ include_once 'header.php';
         <button type="submit">Delete Account</button>
     </form>
 </section>
+<section>
+    <ul>
+        <li>
+            <a href="./logout" title="Logout">Logout</a>
+        </li>
+    </ul>
+</section>
 
 
 <?php
