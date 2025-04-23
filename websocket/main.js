@@ -56,7 +56,29 @@ io.on('connection', socket => {
 
     if (rec.username.length > 0 && rec.message.length > 0) {
 
-        io.emit('chat message', rec);
+      function htmlspecialchars(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      function stripslashes(str) {
+        return str.replace(/\\'/g, "'")
+                  .replace(/\\"/g, '"')
+                  .replace(/\\\\/g, '\\')
+                  .replace(/\\0/g, '\0');
+      }
+
+      function trim(str) {
+        return str.trim();
+      }
+      
+      rec.message = htmlspecialchars(trim(stripslashes(rec.message)));
+
+      io.emit('chat message', rec);
 
     }
 

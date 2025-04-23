@@ -29,7 +29,7 @@ $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
 // SET 'secure' => true
 // ADD 'domain' => domain
 setcookie('jwt', $jwt, [
-    'expires' => time() + 3600,
+    'expires' => time() + 5,
     'path' => '/',
     'secure' => false,
     'httponly' => true,
