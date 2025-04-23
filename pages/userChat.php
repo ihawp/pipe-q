@@ -28,6 +28,11 @@
         // checking for chat username
         $location = explode('?', $_SERVER['REQUEST_URI'])[0];
         $checkURLForChat = explode('/', $location);
+
+        if ($checkURLForChat[3] === $_SESSION['username']) {
+            // turn user around
+            send('../home');
+        }
         
         $query->bind_param('ssss', $_SESSION['username'], $checkURLForChat[3], $_SESSION['username'], $checkURLForChat[3]);
 
