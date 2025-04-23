@@ -15,6 +15,8 @@ if ($checkURLForChat[2] === 'chat') {
     $location = PREPEND . 'chat';
 }
 
+
+
 /*
 if (isset($_GET['from'])) {
     $location = cleanString($_GET['from']);

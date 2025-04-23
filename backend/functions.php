@@ -14,14 +14,10 @@ function isLogged() {
     return isset($_SESSION['id']) && isset($_SESSION['username']);
 }
 
-
-
-
-
-
-
-
-
+function echoJSONEncode($data) {
+    echo json_encode($data);
+    exit();
+}
 
 function Query() {
     include_once 'db_conn.php';

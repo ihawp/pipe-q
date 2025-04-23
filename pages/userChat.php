@@ -26,12 +26,9 @@
         $query = $conn->prepare('SELECT * FROM messages WHERE sender = ? AND receiver = ? OR receiver = ? AND sender = ?');
 
         // checking for chat username
+        $location = explode('?', $_SERVER['REQUEST_URI'])[0];
         $checkURLForChat = explode('/', $location);
-
-        if ($checkURLForChat[2] === 'chat') {
-            $location = PREPEND . 'chat';
-        }
-
+        
         $query->bind_param('ssss', $_SESSION['username'], $checkURLForChat[3], $_SESSION['username'], $checkURLForChat[3]);
 
         try {
@@ -54,14 +51,18 @@
     </section>
     <script src="http://localhost:4343/socket.io/socket.io.js"></script>
     <script>
-    const socket = io('http://localhost:4343/<?= $checkURLForChat[3] ?>', {
+    const socket = io('http://localhost:4343/chat', {
         withCredentials: true,
     });
 
     let formSubmit = document.getElementById('formSubmit');
     const username = "<?= $_SESSION['username'] ?>";
 
+    const receiver = "<?= $checkURLForChat[3] ?>";
+
     socket.on('connect', () => {
+
+        socket.emit('joinRoom', receiver);
 
         let formSubmit = document.getElementById('formSubmit');
 
@@ -70,7 +71,7 @@
 
             let input = event.target[0];
 
-            socket.emit('chat message', { username: username, message: input.value });
+            socket.emit('chat message', { username: username, message: input.value, receiver: receiver });
             input.value = '';
         });
 
@@ -103,3 +104,5 @@
 
 
 </script>
+
+<?= $checkURLForChat[3] ?>

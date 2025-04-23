@@ -46,27 +46,53 @@ function Authentication(socket, next) {
   }
 }
 
-io.use((socket, next) => Authentication(socket, next));
+const chat = io.of('/chat');
 
-io.on('connection', socket => {
+chat.use((socket, next) => Authentication(socket, next));
 
-  socket.on('chat message', (rec) => {
+chat.on('connection', socket => {
 
-    if (rec.username.length >= 5 && rec.username.length <= 16 && rec.message.length > 0 && rec.username === socket.decoded.username) {
+  socket.on('joinRoom', (receiver) => {
+    let roomName = `${socket.decoded.username}_${receiver}`;
+    if (receiver > socket.decoded.username) {
+      roomName = `${receiver}_${socket.decoded.username}`;
+    }
+    socket.join(roomName);
+  });
+
+  socket.on('chat message', async (rec) => {
+
+    console.log(rec);
+
+    console.log(socket.decoded.username);
+
+    if (rec.username.length >= 5 && rec.username.length <= 16 && rec.message.length > 0 && rec.username == socket.decoded.username) {
       
       rec.message = htmlspecialchars(trim(stripslashes(rec.message)));
 
-      io.emit('chat message', rec);
+      let roomName = `${socket.decoded.username}_${rec.receiver}`;
+      if (rec.receiver > socket.decoded.username) {
+        roomName = `${rec.receiver}_${socket.decoded.username}`;
+      }
 
-      fetch('http://localhost/pipe-q/backend/sendMessageToDB.php', {
+      console.log(roomName);
+
+      chat.to(roomName).emit('chat message', rec);
+
+      /*
+      let response = await fetch('http://localhost/pipe-q/backend/sendMessageToDB.php', {
         method: 'POST',
-        body: JSON.stringify({data: rec}),
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP Error: ${response.status}`);
+        body: JSON.stringify(rec),
+      });
+      if (response) {
+        let data = await response.json();
+        console.log(data);
+
+        if (data) {
+          console.log(data);
         }
-      })
+      }
+        */
 
     } else {
       socket.emit('error', 'there was an error');
