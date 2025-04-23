@@ -2,6 +2,8 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import session from "express-session";
 
+import { htmlspecialchars, trim, stripslashes } from "./functions.js";
+
 import jwt from 'jsonwebtoken';
 
 const server = createServer();
@@ -28,11 +30,9 @@ function parseCookies(cookieHeader) {
 
 io.use((socket, next) => {
 
-
   const cookieHeader = socket.handshake.headers.cookie;
   const cookies = parseCookies(cookieHeader);
   const token = cookies['jwt'];
-
 
   if (!token) {
       return next(new Error('Authentication error: No token provided'));
@@ -45,6 +45,7 @@ io.use((socket, next) => {
   } catch (err) {
       next(new Error('Authentication error: Invalid token'));
   }
+
 });
 
 io.on('connection', socket => {
@@ -54,32 +55,14 @@ io.on('connection', socket => {
 
   socket.on('chat message', (rec) => {
 
-    if (rec.username.length > 0 && rec.message.length > 0) {
-
-      function htmlspecialchars(str) {
-        return str
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-
-      function stripslashes(str) {
-        return str.replace(/\\'/g, "'")
-                  .replace(/\\"/g, '"')
-                  .replace(/\\\\/g, '\\')
-                  .replace(/\\0/g, '\0');
-      }
-
-      function trim(str) {
-        return str.trim();
-      }
+    if (rec.username.length >= 5 && rec.username.length <= 16 && rec.message.length > 0 && rec.username === socket.decoded.username) {
       
       rec.message = htmlspecialchars(trim(stripslashes(rec.message)));
 
       io.emit('chat message', rec);
 
+    } else {
+      socket.emit('error', 'there was an error');
     }
 
   });

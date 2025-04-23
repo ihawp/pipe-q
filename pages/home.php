@@ -29,7 +29,7 @@ $jwt = "$base64UrlHeader.$base64UrlPayload.$base64UrlSignature";
 // SET 'secure' => true
 // ADD 'domain' => domain
 setcookie('jwt', $jwt, [
-    'expires' => time() + 5,
+    'expires' => time() + 3600,
     'path' => '/',
     'secure' => false,
     'httponly' => true,
@@ -91,6 +91,11 @@ setcookie('jwt', $jwt, [
         `;
 
         messageOut.innerHTML += chat;
+    });
+
+    socket.on('error', (rec) => {
+        console.log(rec);
+        // error handling!
     });
 
     </script>

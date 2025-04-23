@@ -51,5 +51,8 @@ a {
 
 .chat {
     background-color: green;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
     color: black;
 }
