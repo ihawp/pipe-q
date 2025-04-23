@@ -28,25 +28,25 @@ function parseCookies(cookieHeader) {
   return cookies;
 }
 
-io.use((socket, next) => {
-
+function Authentication(socket, next) {
   const cookieHeader = socket.handshake.headers.cookie;
   const cookies = parseCookies(cookieHeader);
   const token = cookies['jwt'];
-
+  
   if (!token) {
-      return next(new Error('Authentication error: No token provided'));
+    return next(new Error('Authentication error: No token provided'));
   }
-
+  
   try {
-      const decoded = jwt.verify(token, 'this_is_a_secret');
-      socket.decoded = decoded;
-      next();
+  const decoded = jwt.verify(token, 'this_is_a_secret');
+    socket.decoded = decoded;
+    next();
   } catch (err) {
-      next(new Error('Authentication error: Invalid token'));
+    next(new Error('Authentication error: Invalid token'));
   }
+}
 
-});
+io.use((socket, next) => Authentication(socket, next));
 
 io.on('connection', socket => {
 

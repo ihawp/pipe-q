@@ -93,9 +93,15 @@ setcookie('jwt', $jwt, [
         messageOut.innerHTML += chat;
     });
 
+
+    // --------------------------------------------------------------
+    // Error handling:
+    // Message is sent from ../websocket/main.js and is responded to here
+
     socket.on('error', (rec) => {
         console.log(rec);
         // error handling!
     });
 
-    </script>
+
+</script>
