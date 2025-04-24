@@ -1,13 +1,17 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
 import session from "express-session";
-
-import { htmlspecialchars, trim, stripslashes } from "./functions.js";
-
 import jwt from 'jsonwebtoken';
 
-const server = createServer();
 
+// Us
+import { htmlspecialchars, trim, stripslashes } from "./functions.js";
+
+
+const PORT = 4343;
+
+
+const server = createServer();
 const io = new Server(server, {
   cors: {
     origin: "http://localhost",
@@ -46,17 +50,44 @@ function Authentication(socket, next) {
   }
 }
 
+// Create /chat route (not really required, but for ease of reading, and possilbility of more channels later)
 const chat = io.of('/chat');
 
+// Use Authentication(...) middleware to verify users JWT token
 chat.use((socket, next) => Authentication(socket, next));
+
+// Prototype Pattern
+const defaultUserSession = {
+  id: null,
+  chatRoom: null,
+  role: 'guest',
+  time: Date.now(),
+  permissions: [], // shared unless cloned
+};
+
+
+// Logic for naming rooms that cannot be copied accidentally (because of DB rules restricting usernames).
+function getChatName(username, receiver) {
+  return receiver > username ? receiver + username : username + receiver; 
+}
 
 chat.on('connection', socket => {
 
+  // Do error handling of potentially passed Error from next() call in Authentication
+  // Included in this connection call via .use() on line 57
+  // Make error happen by setting cookie php with no token.
+  console.log(socket);
+
+  const userSession = structuredClone(defaultUserSession);
+  /*
+  userSession.id = socket.id;
+  socket.session = userSession;
+  */
+
   socket.on('joinRoom', (receiver) => {
-    let roomName = `${socket.decoded.username}_${receiver}`;
-    if (receiver > socket.decoded.username) {
-      roomName = `${receiver}_${socket.decoded.username}`;
-    }
+
+    const roomName = getChatName(socket.decoded.username, receiver);
+
     socket.join(roomName);
   });
 
@@ -70,12 +101,7 @@ chat.on('connection', socket => {
       
       rec.message = htmlspecialchars(trim(stripslashes(rec.message)));
 
-      let roomName = `${socket.decoded.username}_${rec.receiver}`;
-      if (rec.receiver > socket.decoded.username) {
-        roomName = `${rec.receiver}_${socket.decoded.username}`;
-      }
-
-      console.log(roomName);
+      const roomName = rec.receiver > socket.decoded.username ? rec.receiver + socket.decoded.username : socket.decoded.username + rec.receiver; 
 
       chat.to(roomName).emit('chat message', rec);
 
@@ -102,6 +128,4 @@ chat.on('connection', socket => {
 
 });
 
-server.listen(4343, () => {
-  console.log('Socket.IO server running on port 4343');
-});
+server.listen(PORT);
