@@ -12,12 +12,13 @@ html {
 :root {
     --c-1: purple;
     --c-2: #fff;
-    /* make gray (kinda) */
 }
 
 body {
     background-color: var(--c-1);
     color: var(--c-2);
+
+    font-family: sans-serif;
 }
 
 main {
@@ -38,6 +39,20 @@ a {
 
 #hero {
     background-color: dodgerblue;
-    width: 100vw;
-    height: 100vh;
+}
+
+.error {
+    background-color: red;
+    padding: 1rem;
+    font-size: 14px;
+
+    max-width: 320px;
+}
+
+.chat {
+    background-color: green;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    color: black;
 }

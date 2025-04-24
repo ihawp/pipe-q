@@ -2,7 +2,9 @@
 
 session_start();
 
-include_once 'notIsLogged.php';
+session_regenerate_id(true);
+
+include_once 'backend/notIsLogged.php';
 
 $_SESSION = array();
 
@@ -20,10 +22,3 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-
-session_regenerate_id(true);
-
-send('../index.php');
-
-?>
-
