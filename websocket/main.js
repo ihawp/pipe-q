@@ -76,8 +76,6 @@ chat.on('connection', socket => {
   // Do error handling of potentially passed Error from next() call in Authentication
   // Included in this connection call via .use() on line 57
   // Make error happen by setting cookie php with no token.
-  console.log(socket);
-
   const userSession = structuredClone(defaultUserSession);
   /*
   userSession.id = socket.id;
@@ -89,13 +87,10 @@ chat.on('connection', socket => {
     const roomName = getChatName(socket.decoded.username, receiver);
 
     socket.join(roomName);
+
   });
 
   socket.on('chat message', async (rec) => {
-
-    console.log(rec);
-
-    console.log(socket.decoded.username);
 
     if (rec.username.length >= 5 && rec.username.length <= 16 && rec.message.length > 0 && rec.username == socket.decoded.username) {
       

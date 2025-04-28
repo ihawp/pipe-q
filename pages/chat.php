@@ -1,5 +1,7 @@
 <?php
 
+include 'backend/notIsLogged.php';
+
 ?>
 
 
@@ -27,7 +29,9 @@
                 $result = $query->get_result();
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<a href="./chat/'.$row['username'].'" title="" aria-label="">'.$row['username'].'</a>';
+                        if ($row['username'] !== $_SESSION['username']) {
+                            echo '<a href="./chat/'.$row['username'].'" title="" aria-label="">'.$row['username'].'</a>';
+                        }
                     }
                 } else {
                     echo 'No Users!!!';

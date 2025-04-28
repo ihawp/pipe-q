@@ -65,6 +65,7 @@ if ($query->execute()) {
 
     $_SESSION['id'] = $query->insert_id;
     $_SESSION['username'] = $username;
+    $_SESSION['pfp'] = 'user-pfp.jpg';
 
     send('../home');
 } else {

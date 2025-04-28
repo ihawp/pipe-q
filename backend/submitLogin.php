@@ -22,7 +22,7 @@ if (!filter_var($usernameORemail, FILTER_VALIDATE_EMAIL)) {
 
 include_once 'db_conn.php';
 
-$query = $conn->prepare("SELECT id, username, password FROM users WHERE username = ? OR email = ?");
+$query = $conn->prepare("SELECT id, username, pfp, password FROM users WHERE username = ? OR email = ?");
 
 $query->bind_param('ss', $usernameORemail, $usernameORemail);
 
@@ -40,6 +40,7 @@ if ($result->num_rows > 0) {
             // successful login
             $_SESSION['id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
+            $_SESSION['pfp'] = $row['pfp'];
 
             send('../home');
 

@@ -50,9 +50,19 @@ a {
 }
 
 .chat {
-    background-color: green;
-    width: 300px;
+
     display: flex;
-    justify-content: space-between;
-    color: black;
+    flex-direction: row;
+
+}
+
+.chat img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+}
+
+.chat div {
+    display: flex;
+    flex-direction: column;
 }

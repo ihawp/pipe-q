@@ -1,5 +1,11 @@
 <?php
 
+
+// cannot use 'backend/notIsLogged.php' due to url depth. Will research.
+if (!isLogged()) {
+    send('../login');   
+}
+
 ?>
 
 
@@ -23,8 +29,6 @@
 
         include_once 'backend/db_conn.php';
 
-        $query = $conn->prepare('SELECT * FROM messages WHERE sender = ? AND receiver = ? OR receiver = ? AND sender = ?');
-
         // checking for chat username
         $location = explode('?', $_SERVER['REQUEST_URI'])[0];
         $checkURLForChat = explode('/', $location);
@@ -33,6 +37,10 @@
             // turn user around
             send('../home');
         }
+
+        // FOR QUERYING PAST MESSAGES
+        /*
+        $query = $conn->prepare('SELECT * FROM messages WHERE sender = ? AND receiver = ? OR receiver = ? AND sender = ?');
         
         $query->bind_param('ssss', $_SESSION['username'], $checkURLForChat[3], $_SESSION['username'], $checkURLForChat[3]);
 
@@ -51,7 +59,7 @@
         } catch (E) {
             echo 'content unable to load';
         }
-
+        */
         ?>
     </section>
     <script src="http://localhost:4343/socket.io/socket.io.js"></script>
@@ -65,6 +73,12 @@
 
     const receiver = "<?= $checkURLForChat[3] ?>";
 
+    const pfp = "<?= $_SESSION['pfp'] ?>";
+
+    console.log(pfp);
+
+    console.log(receiver, username);
+
     socket.on('connect', () => {
 
         socket.emit('joinRoom', receiver);
@@ -76,17 +90,21 @@
 
             let input = event.target[0];
 
-            socket.emit('chat message', { username: username, message: input.value, receiver: receiver });
+            socket.emit('chat message', { username: username, message: input.value, receiver: receiver, pfp: pfp });
             input.value = '';
         });
 
     });
 
     socket.on('chat message', (rec) => {
+        console.log(rec.pfp);
         let chat = `
             <div class="chat">
-                <span class="username">${rec.username}: </span>
-                <span class="message">${rec.message}</span>
+                <img src="../backend/pfp/compressed/${rec.pfp}" alt="${rec.username}'s Profile Picture" title="${rec.username}'s Profile Picture">
+                <div>
+                    <span class="username">${rec.username}: </span>
+                    <span class="message">${rec.message}</span>
+                </div>
             </div>
         `;
 
@@ -109,5 +127,3 @@
 
 
 </script>
-
-<?= $checkURLForChat[3] ?>
