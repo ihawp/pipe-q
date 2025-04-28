@@ -28,6 +28,10 @@ if (isset($_GET['error'])) {
         case 'failed_to_register':
             echo 'Failed to Register. This is likely a server error.';
             break;
+        case 'preg_match':
+            echo 'There was an issue with the formatting of your username.
+                  Usernames should use uppercase or lowercase letters, and numbers.';
+            break;
     }
 
     echo '</p>';
@@ -43,7 +47,7 @@ if (isset($_GET['error'])) {
         <form action="backend/submitRegister.php" method="POST">
             <div>
                 <label for="username">Username:</label>
-                <input type="text" name="username" autocomplete="username" id="username" placeholder="Username" minlength="5" maxlength="16" required>
+                <input type="text" name="username" pattern="^[A-Za-z0-9]+$" autocomplete="username" id="username" placeholder="Username" minlength="5" maxlength="16" required>
             </div>    
             <div>
                 <label for="email">Email:</label>

@@ -9,6 +9,6 @@
     <meta name="author" content="Warren Chemerika">
     <meta name="description" content="This is the description as of now!">
 
-    <link rel="preload stylesheet" as="style" href="css/styles.css">
+    <link rel="preload stylesheet" as="style" href="/pipe-q/css/styles.css">
 </head>
 <body>

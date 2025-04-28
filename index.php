@@ -2,9 +2,20 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+const PREPEND = '/pipe-q/';
+
 $location = explode('?', $_SERVER['REQUEST_URI'])[0];
 
 include_once 'backend/functions.php';
+
+// checking for chat username
+$checkURLForChat = explode('/', $location);
+
+if ($checkURLForChat[2] === 'chat') {
+    $location = PREPEND . 'chat';
+}
+
+
 
 /*
 if (isset($_GET['from'])) {
@@ -24,8 +35,6 @@ if (isLogged()) {
     include_once 'pages/NL-header.php';
 }
 
-const PREPEND = '/pipe-q/';
-
 switch ($location) {
     case PREPEND . 'login':
         include_once 'pages/login.php';
@@ -39,6 +48,13 @@ switch ($location) {
         break;
     case PREPEND . 'account':
         include_once 'pages/account.php';
+        break;
+    case PREPEND . 'chat':
+        if (isset($checkURLForChat[3]) && strlen($checkURLForChat[3]) > 0) {
+            include_once 'pages/userChat.php';
+        } else {
+            include_once 'pages/chat.php';
+        }
         break;
     case PREPEND:
     case PREPEND . 'home':
