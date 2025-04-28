@@ -57,7 +57,7 @@ $image;
 switch ($pfpUpload['type']) {
     case 'image/jpeg':
     case 'image/jpg':
-        imagecreatefromjpeg($createImage);
+        $image = imagecreatefromjpeg($createImage);
         break;
     case 'image/png':
         $image = imagecreatefrompng($createImage);
