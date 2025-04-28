@@ -100,9 +100,9 @@ if (!isLogged()) {
         console.log(rec.pfp);
         let chat = `
             <div class="chat">
-                <img src="../backend/pfp/compressed/${rec.pfp}" alt="${rec.username}'s Profile Picture" title="${rec.username}'s Profile Picture">
+                <img class="pfp" src="../backend/pfp/compressed/${rec.pfp}" alt="${rec.username}'s Profile Picture" title="${rec.username}'s Profile Picture">
                 <div>
-                    <span class="username">${rec.username}: </span>
+                    <span class="username">${rec.username}</span>
                     <span class="message">${rec.message}</span>
                 </div>
             </div>

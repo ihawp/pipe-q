@@ -49,20 +49,40 @@ a {
     max-width: 320px;
 }
 
+#messageOut {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
 .chat {
 
     display: flex;
     flex-direction: row;
 
+    width: 100%;
+
 }
 
-.chat img {
-    height: 50px;
-    width: 50px;
-    border-radius: 50px;
+.chat .pfp {
+    height: 43px;
+    width: 43px;
+    border-radius: 43px;
+    margin: 0 8px 0 0;
 }
 
 .chat div {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+.chat .username {
+    font-weight: 700;
+    margin: 0 0 4px 0;
+}
+
+.chat .message {
+
 }
