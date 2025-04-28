@@ -8,15 +8,9 @@ include 'backend/notIsLogged.php';
 <header>
     <h1>Chat</h1>
 </header>
-<section>
-        <form id="formSubmit">
-            <input type="text">
-            <button type="submit">Submit</button>
-        </form>
-    </section>
-    <section id="messageOut"></section>
-    <section id="otherUsers">
-        <?php
+<section id="messageOut"></section>
+<section id="otherUsers">
+<?php
 
         // show users that exists to message!
 
@@ -42,43 +36,13 @@ include 'backend/notIsLogged.php';
             echo 'content unable to load';
         }
 
-        ?>
-    </section>
-    <script src="http://localhost:4343/socket.io/socket.io.js"></script>
-    <script>
+?>
+</section>
+<script src="http://localhost:4343/socket.io/socket.io.js"></script>
+<script>
     const socket = io('http://localhost:4343', {
         withCredentials: true,
     });
-
-    let formSubmit = document.getElementById('formSubmit');
-    const username = "<?= $_SESSION['username'] ?>";
-
-    socket.on('connect', () => {
-
-        let formSubmit = document.getElementById('formSubmit');
-
-        formSubmit.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            let input = event.target[0];
-
-            socket.emit('chat message', { username: username, message: input.value });
-            input.value = '';
-        });
-
-    });
-
-    socket.on('chat message', (rec) => {
-        let chat = `
-            <div class="chat">
-                <span class="username">${rec.username}: </span>
-                <span class="message">${rec.message}</span>
-            </div>
-        `;
-
-        messageOut.innerHTML += chat;
-    });
-
 
     // --------------------------------------------------------------
     // Error handling:
