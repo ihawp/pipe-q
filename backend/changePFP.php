@@ -52,7 +52,7 @@ if (!exif_imagetype($createImage)) {
     send('../account?error=not_image');
 }
 
-$image;
+$image = NULL;
 
 switch ($pfpUpload['type']) {
     case 'image/jpeg':
@@ -62,6 +62,10 @@ switch ($pfpUpload['type']) {
     case 'image/png':
         $image = imagecreatefrompng($createImage);
         break;
+}
+
+if ($image === NULL) {
+    send('../account?error=not_image');
 }
 
 $newName = 'compressed-' . $targetFile;
