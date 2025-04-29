@@ -65,6 +65,8 @@ const defaultUserSession = {
   permissions: [], // shared unless cloned
 };
 
+// ...
+
 
 // Logic for naming rooms that cannot be copied accidentally (because of DB rules restricting usernames).
 function getChatName(username, receiver) {
